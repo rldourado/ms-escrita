@@ -39,6 +39,6 @@ try:
                           routing_key=queue,
                           body=message)
 
-    print(f"Message Sent:\n\n{message}\n")
+    print(f"--------------------\nMessage Sent:\n\n{message}\n")
 finally:
   connection.close()
