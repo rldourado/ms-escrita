@@ -16,8 +16,6 @@ app_name = os.getenv('APP_NAME')
 message  = os.getenv('MESSAGE')
 timer    = os.getenv('TIMER')
 
-message = f'App: {app_name}\n{message}'
-
 timer = int(timer)
 
 connection = pika.BlockingConnection(
@@ -35,10 +33,13 @@ try:
   while True:
     time.sleep(timer)
 
+    ts = time.time()
+    message_body = f'App: {app_name}\nTimestamp: {ts}\nMessage: {message}'
+
     channel.basic_publish(exchange='',
                           routing_key=queue,
-                          body=message)
+                          body=message_body)
 
-    print(f"--------------------\nMessage Sent:\n\n{message}\n")
+    print(f"--------------------\nMessage Sent:\n\n{message_body}\n")
 finally:
   connection.close()
